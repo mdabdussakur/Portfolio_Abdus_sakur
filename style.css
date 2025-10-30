@@ -966,7 +966,7 @@ span {
   margin-bottom: 70px;
   padding: 5rem;
   background: #32394642;
-  border-radius: 8%;
+  border-radius: 5%;
 }
 #item-back {
   background: #323946a2 !important;
@@ -980,6 +980,12 @@ span {
   color: var(--text-color);
   font-size: 1.3rem;
   border-color: #12f7f9 !important;
+}
+
+/* ------map---------- */
+#map {
+  background: #32394642;
+  border-radius: 5%;
 }
 /* ----------Contact Start------------- */
 .contact {
