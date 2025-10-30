@@ -961,11 +961,12 @@ span {
   color: #6439f1;
 }
 
-/* ---------Accordion FAQ Question----- */
+/* ---------FAQ Question----- */
 #faq {
   margin-bottom: 70px;
   padding: 5rem;
-  /* background: var(--second-bg-color); */
+  background: #32394642;
+  border-radius: 8%;
 }
 #item-back {
   background: #323946a2 !important;
