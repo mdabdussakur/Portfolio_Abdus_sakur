@@ -1,0 +1,99 @@
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: white !important;
+  color: black !important;
+} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --bg-color: #ffffff;
+  --second-bg-color: #323946;
+  --text-color: black;
+  --main-color: #0ef;
+  --neon-box-shadow: 0 0 0.5rem #12f7ff;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+section {
+  min-height: 100vh;
+  padding: 10rem 9% 2rem;
+}
+
+.pricing-row {
+  gap: 50px;
+}
+
+.pricing-col {
+  background: #323946;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  color: #12f7f9;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.8rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th,
+td {
+  border: 2px solid #12f5f981;
+  /* padding: 5px; */
+  /* font-size: 10px; */
+}
+
+th {
+  color: #12f9edec;
+  font-size: 1.5rem;
+}
+
+td {
+  color: white;
+  font-size: 1.4rem;
+}
+
+button {
+  background: #12f7f9;
+  border: none;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+button:hover {
+  background: #0dd8da;
+}
+
+/* .bx {
+  color: #12f7f9;
+  font-size: 10px;
+} */
