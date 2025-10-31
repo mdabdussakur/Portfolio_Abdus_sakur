@@ -78,6 +78,7 @@ li {
 .brand-logo {
   width: 100px;
   height: auto;
+  border-radius: 10%;
 }
 
 .author-name {
@@ -91,7 +92,7 @@ li {
 }
 
 footer {
-  background: #f8f9fa;
+  background: #1c1e20e3;
 }
 
 @media (max-width: 768px) {
