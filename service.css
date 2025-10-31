@@ -30,7 +30,7 @@ body {
 section {
   min-height: 100vh;
   padding: 5rem 5% 2rem;
-  background-color: var(--bg-color);
+  background-color: #20252e;
 }
 
 #pricing-row {
@@ -45,7 +45,7 @@ section {
 }
 
 h2 {
-  color: #f9126a;
+  color: #12f5f9d2;
   text-align: center;
   margin-bottom: 20px;
   font-size: 2.8rem;
@@ -73,8 +73,7 @@ td {
   color: white;
   font-size: 1.4rem;
 }
-
-button {
+.btn-price {
   background: #12f7f9;
   border: none;
   color: black;
@@ -82,13 +81,35 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
-.btn-back i {
-  color: #f91238;
-  font-size: 1.5rem;
+.btn-project {
+  background: #12f7f9;
+  border: none;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
-
+.btn-allign {
+  text-align: center;
+}
+.btn-talk {
+  background: #12f7f9;
+  border: none;
+  color: black;
+  padding: 5px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 1.8rem;
+  text-align: center;
+}
 button:hover {
   background: #0dd8da;
 }

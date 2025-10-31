@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+html {
+  /* font-size: 62.5%; */
+  overflow-x: hidden;
+}
+
+section {
+  min-height: 100vh;
+  padding: 5rem 5% 2rem;
+}
+
+body {
+  background-color: #fff;
+  font-family: "Inter", sans-serif;
+  color: #222;
+  line-height: 1.8;
+}
+
+.blog-section {
+  background: #fff;
+}
+
+.blog-title {
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #111;
+}
+
+.blog-content {
+  margin-bottom: 2.5rem;
+}
+
+.blog-content h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0d6efd;
+}
+
+.blog-content h2 i {
+  margin-right: 8px;
+}
+
+.blog-content h5 {
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+ul {
+  margin-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* Author Section */
+.author-section {
+  background-color: #fff;
+}
+
+.blog-thumbnail {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.brand-logo {
+  width: 100px;
+  height: auto;
+}
+
+.author-name {
+  font-weight: 600;
+  margin-top: 10px;
+  color: #111;
+}
+
+.brand-name {
+  font-size: 0.95rem;
+}
+
+footer {
+  background: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+  .blog-title {
+    font-size: 1.8rem;
+  }
+
+  .blog-content h2 {
+    font-size: 1.4rem;
+  }
+
+  .brand-logo {
+    width: 80px;
+  }
+
+  .blog-thumbnail {
+    max-width: 100%;
+  }
+}
