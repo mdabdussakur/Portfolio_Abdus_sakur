@@ -113,6 +113,9 @@ td {
 button:hover {
   background: #0dd8da;
 }
+
+/* ---------Service details------- */
+
 .heading {
   color: #0ebfec;
   font-size: 4rem;
@@ -130,7 +133,23 @@ button:hover {
 
 /* --------------------------- */
 /* --------service details-------- */
-
+.btn-service {
+  display: inline-block;
+  padding: 1rem 2.8rem;
+  background: var(--main-color);
+  border-radius: 4rem;
+  box-shadow: 0 0 1rem var(--main-color);
+  font-size: 1.6rem;
+  color: var(--second-bg-color);
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+  transition: 0.5s ease;
+  text-decoration: none !important;
+  margin-top: auto;
+}
+.btn-service:hover {
+  box-shadow: none;
+}
 .service-section {
   padding: 80px 0;
 }
