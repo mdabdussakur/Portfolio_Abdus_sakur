@@ -22,10 +22,9 @@ html {
   overflow-x: hidden;
 }
 
-body {
-  /* background: var(--bg-color); */
+/* body {
   color: var(--text-color);
-}
+} */
 
 section {
   min-height: 100vh;
@@ -33,15 +32,12 @@ section {
   background-color: #20252e;
 }
 
-#pricing-row {
-  gap: 40px;
-}
-
 #pricing-col {
   background: #323946;
   padding: 5px;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px #0000004d;
+  margin-top: 20px;
 }
 
 h2 {
@@ -60,8 +56,6 @@ table {
 th,
 td {
   border: 2px solid #12f5f981;
-  /* padding: 5px; */
-  /* font-size: 10px; */
 }
 
 th {
@@ -131,8 +125,129 @@ button:hover {
   letter-spacing: 1px;
 }
 
-/* --------------------------- */
+/* ------------Subscription Package--------------- */
+
+.subscription-section {
+  padding: 4rem 8%;
+  text-align: center;
+  background: #20252e;
+}
+
+.packages-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 0 1.5rem;
+}
+
+.package-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.package-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.package-card h3 {
+  font-size: 1.8rem;
+  color: #0a0a60;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0077ff;
+  margin-bottom: 1rem;
+}
+
+.package-card ul {
+  list-style: none;
+  font-size: 1.3rem;
+  padding: 0;
+  margin: 1rem 0 1.5rem;
+  text-align: left;
+}
+
+.package-card ul li {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.package-card ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #0077ff;
+  font-weight: 700;
+}
+
+.btn {
+  display: inline-block;
+  background: #0a0a60;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0077ff;
+}
+
+.featured {
+  border: 5px solid #0077ff;
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 1.8rem;
+  color: #20e241;
+}
+
+.note strong {
+  color: #0077ff;
+  font-size: 2.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .packages-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .subscription-section {
+    padding: 3rem 5%;
+  }
+
+  .packages-container {
+    grid-template-columns: 1fr;
+  }
+
+  .package-card {
+    padding: 2rem;
+  }
+
+  .subscription-header h2 {
+    font-size: 1.7rem;
+  }
+}
+
 /* --------service details-------- */
+
 .btn-service {
   display: inline-block;
   padding: 1rem 2.8rem;
@@ -157,7 +272,7 @@ button:hover {
 .service-card {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px #0000000d;
   padding: 30px;
   transition: all 0.3s ease;
   height: 100%;
