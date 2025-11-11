@@ -1115,6 +1115,7 @@ span {
 
 .partner-logo {
   max-height: 80px;
+  min-width: 100px;
   object-fit: contain;
   border-radius: 20%;
   transition: all 0.3s ease;
