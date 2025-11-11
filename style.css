@@ -870,7 +870,7 @@ span {
   gap: 2rem;
   padding: 4rem 8%;
   align-items: stretch;
-  margin-top: 100px;
+  margin-top: 40px;
   height: 400px;
   border-radius: 5%;
 }
@@ -1098,7 +1098,7 @@ span {
   border-radius: 5%;
 }
 #item-back {
-  background: #21f50573 !important;
+  background: #74777473 !important;
   color: #080ce9fb;
   font-size: 1.8rem;
   font-weight: 400;
