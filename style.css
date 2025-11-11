@@ -1094,15 +1094,16 @@ span {
 #faq {
   margin-bottom: 70px;
   padding: 5rem;
-  background: #32394642;
+  background: #323e4642;
   border-radius: 5%;
 }
 #item-back {
-  background: #323946a2 !important;
-  color: #570abbe3;
+  background: #05f525af !important;
+  color: #080ce9fb;
   font-size: 1.8rem;
   font-weight: 400;
   border-color: #12f7f9 !important;
+  margin-top: 5px;
 }
 .accordion-body {
   background: var(--second-bg-color) !important;
@@ -1117,7 +1118,7 @@ span {
   max-height: 80px;
   min-width: 100px;
   object-fit: contain;
-  border-radius: 20%;
+  border-radius: 30%;
   transition: all 0.3s ease;
 }
 
