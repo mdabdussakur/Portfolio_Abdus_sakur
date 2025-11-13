@@ -1095,7 +1095,6 @@ span {
   margin-bottom: 70px;
   padding: 5rem;
   background: #323e4642;
-  border-radius: 5%;
 }
 #item-back {
   background: #74777473 !important;
@@ -1140,6 +1139,10 @@ span {
   }
 }
 
+/* map */
+#map {
+  background: #323e4642;
+}
 /* ----------Contact Start------------- */
 .contact {
   margin: auto;

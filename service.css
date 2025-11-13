@@ -140,8 +140,13 @@ h2 {
 }
 
 .second-package img {
-  width: 100%;
+  width: 80%;
+  height: 80%;
   border-radius: 15px;
+}
+
+#img-details {
+  text-align: center;
 }
 .second-package .row h5 {
   color: #05bdf5;
