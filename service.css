@@ -124,6 +124,56 @@ button:hover {
   font-weight: 700;
   letter-spacing: 1px;
 }
+/*--------2nd Service Details-----------  */
+h2 {
+  color: #0adbf7;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.second-package .row {
+  padding: 40px 0;
+  background-color: #20252e;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px #048de9e7;
+  margin-bottom: 40px;
+}
+
+.second-package img {
+  width: 100%;
+  border-radius: 15px;
+}
+.second-package .row h5 {
+  color: #05bdf5;
+  font-size: 1.8rem;
+}
+.second-package .row p {
+  color: white;
+  font-size: 1.5rem;
+}
+.second-package .row span {
+  color: #e9c00a;
+}
+
+.second-package ul {
+  list-style: none;
+  padding-left: 0;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.second-package ul li::before {
+  content: "✔ ";
+  color: #0b9e43;
+  font-weight: 600;
+}
+
+.highlight {
+  font-weight: 600;
+}
+.second-package {
+  background: #20252e;
+}
 
 /* ------------Subscription Package--------------- */
 
