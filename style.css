@@ -755,6 +755,7 @@ span {
 .port-content p {
   font-size: 1.4rem;
   margin: 5px 0 15px 0;
+  color: black;
 }
 .port-content a {
   background: #fff;
@@ -772,6 +773,10 @@ span {
 .port-content a i {
   font-size: 2rem;
   color: #2f44ff;
+}
+
+.port-content h3 {
+  color: #0905e6;
 }
 
 /* Scroll reveal animation */
@@ -1085,9 +1090,22 @@ span {
   border-radius: 50%;
   border: 2px solid var(--secondary);
 }
+.testimonial-item h5 {
+  color: #0895f3;
+}
 .testimonial-icon i {
   font-size: 2.5rem;
   color: #6439f1;
+}
+
+.star-select i {
+  font-size: 26px;
+  cursor: pointer;
+  color: #f4b400;
+}
+.give-review {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* ---------FAQ Question----- */
