@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Advanced Review Section</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Firebase Shared Review Section</title>
+
+    <!-- Bootstrap + Boxicons -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,37 +14,73 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+
     <style>
       body {
         background: #f4f4f4;
         padding: 20px;
       }
       .review-card {
-        background: white;
+        background: #fff;
         border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 18px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         height: 100%;
+        display: flex;
+        flex-direction: column;
       }
       .star-select i {
         font-size: 26px;
         cursor: pointer;
         color: #ccc;
+        margin-right: 6px;
       }
       .star-select i.active {
         color: #f4b400;
       }
       .stars i {
-        color: #f4b400;
         font-size: 20px;
+        margin-right: 4px;
+      }
+      .small-muted {
+        font-size: 0.9rem;
+        color: #666;
+      }
+      .page-info {
+        align-self: center;
+      }
+      @media (max-width: 767px) {
+        .col-sm-card {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2 class="mb-3">Reviews (<span id="count">0</span>)</h2>
-
-      <h5>Average Rating: <span id="avgRating">0</span> ⭐</h5>
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <h2 class="mb-0">
+            Reviews
+            <small class="small-muted">(<span id="count">0</span>)</small>
+          </h2>
+          <div class="small-muted">
+            Average Rating: <strong id="avgRating">0</strong> ⭐
+          </div>
+        </div>
+        <div class="page-info">
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary btn-sm" id="prevBtn">
+              Previous
+            </button>
+            <span id="pageIndicator">Page 1</span>
+            <button class="btn btn-outline-secondary btn-sm" id="nextBtn">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Review Form -->
       <div class="card p-3 mb-4">
@@ -55,163 +93,313 @@
               placeholder="Your Name"
             />
           </div>
-          <div class="col-md-6 star-select" id="starSelector">
-            <i class="bx bxs-star" data-value="1"></i>
-            <i class="bx bxs-star" data-value="2"></i>
-            <i class="bx bxs-star" data-value="3"></i>
-            <i class="bx bxs-star" data-value="4"></i>
-            <i class="bx bxs-star" data-value="5"></i>
+
+          <div
+            class="col-md-6 star-select d-flex align-items-center"
+            id="starSelector"
+            aria-label="rating"
+          >
+            <i class="bx bxs-star" data-value="1" title="1 star"></i>
+            <i class="bx bxs-star" data-value="2" title="2 stars"></i>
+            <i class="bx bxs-star" data-value="3" title="3 stars"></i>
+            <i class="bx bxs-star" data-value="4" title="4 stars"></i>
+            <i class="bx bxs-star" data-value="5" title="5 stars"></i>
           </div>
+
           <div class="col-12">
             <textarea
               id="comment"
               class="form-control"
+              rows="3"
               placeholder="Your Comment"
             ></textarea>
           </div>
-          <div class="col-12">
-            <button class="btn btn-primary" onclick="submitReview()">
+
+          <div class="col-12 d-flex gap-2">
+            <button class="btn btn-primary" id="submitBtn">
               Submit Review
             </button>
+            <button
+              class="btn btn-outline-secondary"
+              id="cancelEditBtn"
+              style="display: none"
+            >
+              Cancel Edit
+            </button>
+            <div class="ms-auto small-muted align-self-center">
+              Code for edit: <strong>710200</strong>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Review Grid (3 columns) -->
+      <!-- Review Grid -->
       <div class="row" id="reviewContainer"></div>
 
-      <!-- Pagination -->
-      <div class="d-flex justify-content-between mt-3">
-        <button class="btn btn-secondary" onclick="prevPage()">Previous</button>
-        <button class="btn btn-secondary" onclick="nextPage()">Next</button>
+      <!-- small footer -->
+      <div class="text-center mt-3 small-muted">
+        Reviews powered by Firebase Firestore
       </div>
     </div>
 
-    <script>
-      let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
-      let currentPage = 1;
-      const perPage = 3;
-      let selectedRating = 0;
+    <!-- Firebase + App Script (module) -->
+    <script type="module">
+      // --- IMPORTS (modular v10)
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        onSnapshot,
+        orderBy,
+        query,
+        doc,
+        deleteDoc,
+        updateDoc,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-      // Handle star rating selection
+      // ------------------ FIREBASE CONFIG -----------------------
+      const firebaseConfig = {
+        apiKey: "AIzaSyBd2xcn959dctaUGaQhclDg791Ft5t-zGQ",
+        authDomain: "review-system-1305d.firebaseapp.com",
+        projectId: "review-system-1305d",
+        storageBucket: "review-system-1305d.firebasestorage.app",
+        messagingSenderId: "988357524190",
+        appId: "1:988357524190:web:4eb13b6054959dcd72a04f",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // ------------------ STATE -----------------------
+      let reviews = []; // local copy of snapshot data
+      let currentPage = 1;
+      const perPage = 4;
+      let selectedRating = 0;
+      let editingId = null; // when non-null, submit updates doc
+
+      // ------------------ UI ELEMENTS -----------------------
       const starSelector = document.getElementById("starSelector");
+      const reviewContainer = document.getElementById("reviewContainer");
+      const countEl = document.getElementById("count");
+      const avgEl = document.getElementById("avgRating");
+      const pageIndicator = document.getElementById("pageIndicator");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const submitBtn = document.getElementById("submitBtn");
+      const cancelEditBtn = document.getElementById("cancelEditBtn");
+
+      // ------------------ STAR SELECTOR -----------------------
       starSelector.querySelectorAll("i").forEach((star) => {
         star.addEventListener("click", () => {
-          selectedRating = star.dataset.value;
+          selectedRating = Number(star.dataset.value);
           updateStarUI();
         });
       });
-
       function updateStarUI() {
-        starSelector.querySelectorAll("i").forEach((star) => {
-          star.classList.toggle("active", star.dataset.value <= selectedRating);
+        starSelector.querySelectorAll("i").forEach((s) => {
+          s.classList.toggle(
+            "active",
+            Number(s.dataset.value) <= selectedRating
+          );
         });
       }
 
-      function submitReview() {
-        const name = document.getElementById("name").value.trim();
-        const comment = document.getElementById("comment").value.trim();
+      // ------------------ SUBMIT (create or update) -----------------------
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", async () => {
+          const name = document.getElementById("name").value.trim();
+          const comment = document.getElementById("comment").value.trim();
 
-        if (!name || !comment || !selectedRating) {
-          alert("Please fill all fields and select a rating.");
-          return;
-        }
+          if (!name || !comment || !selectedRating) {
+            alert("Please fill all fields and select a rating.");
+            return;
+          }
 
-        reviews.push({ name, comment, rating: Number(selectedRating) });
-        localStorage.setItem("reviews", JSON.stringify(reviews));
+          submitBtn.disabled = true;
 
+          try {
+            if (editingId) {
+              // update existing review
+              const docRef = doc(db, "reviews", editingId);
+              await updateDoc(docRef, {
+                name,
+                comment,
+                rating: Number(selectedRating),
+                updated: Date.now(),
+              });
+              editingId = null;
+              cancelEditBtn.style.display = "none";
+              submitBtn.textContent = "Submit Review";
+            } else {
+              // create new review
+              await addDoc(collection(db, "reviews"), {
+                name,
+                comment,
+                rating: Number(selectedRating),
+                created: Date.now(),
+              });
+            }
+
+            // clear form
+            document.getElementById("name").value = "";
+            document.getElementById("comment").value = "";
+            selectedRating = 0;
+            updateStarUI();
+          } catch (err) {
+            console.error("Save error", err);
+            alert("There was an error saving the review.");
+          } finally {
+            submitBtn.disabled = false;
+          }
+        });
+
+      // Cancel edit restores state
+      cancelEditBtn.addEventListener("click", () => {
+        editingId = null;
+        cancelEditBtn.style.display = "none";
+        submitBtn.textContent = "Submit Review";
         document.getElementById("name").value = "";
         document.getElementById("comment").value = "";
         selectedRating = 0;
         updateStarUI();
+      });
 
+      // ------------------ REAL-TIME LISTEN -----------------------
+      const q = query(collection(db, "reviews"), orderBy("created", "desc"));
+      onSnapshot(q, (snapshot) => {
+        reviews = [];
+        snapshot.forEach((d) => reviews.push({ id: d.id, ...d.data() }));
+        // if currentPage is out of range, fix it
+        const maxPage = Math.max(1, Math.ceil(reviews.length / perPage));
+        if (currentPage > maxPage) currentPage = maxPage;
         render();
-      }
+      });
 
+      // ------------------ RENDER -----------------------
       function render() {
-        const container = document.getElementById("reviewContainer");
-        container.innerHTML = "";
-
+        reviewContainer.innerHTML = "";
         const start = (currentPage - 1) * perPage;
         const pageReviews = reviews.slice(start, start + perPage);
 
-        pageReviews.forEach((r, index) => {
-          let stars = "";
+        pageReviews.forEach((r) => {
+          const col = document.createElement("div");
+          col.className = "col-md-4 mb-4 col-sm-card";
+
+          const card = document.createElement("div");
+          card.className = "review-card";
+
+          // stars
+          const starsDiv = document.createElement("div");
+          starsDiv.className = "stars mb-2";
           for (let i = 1; i <= 5; i++) {
-            stars += `<i class='bx bxs-star' style='color:${
-              i <= r.rating ? "#f4b400" : "#ccc"
-            }'></i>`;
+            const si = document.createElement("i");
+            si.className = "bx bxs-star";
+            si.style.color = i <= r.rating ? "#f4b400" : "#ccc";
+            starsDiv.appendChild(si);
           }
 
-          container.innerHTML += `
-            <div class="col-md-4 mb-4">
-                <div class="review-card">
-                    <div class="stars">${stars}</div>
-                    <h5>${r.name}</h5>
-                    <p>${r.comment}</p>
-                    <button class="btn btn-sm btn-warning me-2" onclick="editReview(${
-                      start + index
-                    })">Edit</button>
-                    <button class=\"btn btn-sm btn-danger\" onclick=\"requestDeleteReview(${
-                      start + index
-                    })">Delete</button>
-                </div>
-            </div>
-        `;
+          const nameEl = document.createElement("h5");
+          nameEl.textContent = r.name;
+
+          const commentEl = document.createElement("p");
+          commentEl.textContent = r.comment;
+          commentEl.style.flex = "1";
+
+          const btnRow = document.createElement("div");
+          btnRow.className = "mt-2";
+
+          const editBtn = document.createElement("button");
+          editBtn.className = "btn btn-sm btn-warning me-2";
+          editBtn.textContent = "Edit";
+          editBtn.onclick = () => requestEditReview(r.id);
+
+          const delBtn = document.createElement("button");
+          delBtn.className = "btn btn-sm btn-danger";
+          delBtn.textContent = "Delete";
+          delBtn.onclick = () => requestDeleteReview(r.id);
+
+          btnRow.appendChild(editBtn);
+          btnRow.appendChild(delBtn);
+
+          card.appendChild(starsDiv);
+          card.appendChild(nameEl);
+          card.appendChild(commentEl);
+          card.appendChild(btnRow);
+
+          col.appendChild(card);
+          reviewContainer.appendChild(col);
         });
 
-        document.getElementById("count").textContent = reviews.length;
-        document.getElementById("avgRating").textContent = calcAverageRating();
+        countEl.textContent = reviews.length;
+        avgEl.textContent = calcAverageRating();
+        pageIndicator.textContent = `Page ${currentPage} / ${Math.max(
+          1,
+          Math.ceil(reviews.length / perPage)
+        )}`;
       }
 
       function calcAverageRating() {
         if (reviews.length === 0) return 0;
-        const total = reviews.reduce((sum, r) => sum + r.rating, 0);
+        const total = reviews.reduce((s, r) => s + (r.rating || 0), 0);
         return (total / reviews.length).toFixed(1);
       }
 
-      function nextPage() {
-        if (currentPage * perPage < reviews.length) {
-          currentPage++;
-          render();
-        }
-      }
-
-      function prevPage() {
+      // ------------------ PAGINATION BUTTONS -----------------------
+      prevBtn.addEventListener("click", () => {
         if (currentPage > 1) {
           currentPage--;
           render();
         }
-      }
+      });
+      nextBtn.addEventListener("click", () => {
+        if (currentPage * perPage < reviews.length) {
+          currentPage++;
+          render();
+        }
+      });
 
-      function editReview(index) {
-        const r = reviews[index];
-        document.getElementById("name").value = r.name;
-        document.getElementById("comment").value = r.comment;
-        selectedRating = r.rating;
-        updateStarUI();
-
-        reviews.splice(index, 1);
-        localStorage.setItem("reviews", JSON.stringify(reviews));
-        render();
-      }
-
-      function requestDeleteReview(index) {
-        const code = prompt("Enter delete security code:");
-        if (code === "710287") {
-          deleteReview(index);
+      // ------------------ EDIT (with security code) -----------------------
+      function requestEditReview(id) {
+        const code = prompt("Enter edit security code:");
+        if (code === "710200") {
+          const r = reviews.find((x) => x.id === id);
+          if (!r) return alert("Review not found.");
+          document.getElementById("name").value = r.name;
+          document.getElementById("comment").value = r.comment;
+          selectedRating = r.rating || 0;
+          updateStarUI();
+          editingId = id;
+          cancelEditBtn.style.display = "inline-block";
+          submitBtn.textContent = "Save Edit";
+          // scroll to form on small screens
+          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-          alert("Wrong code! Delete not allowed.");
+          alert("Wrong code! Edit not allowed.");
         }
       }
 
-      function deleteReview(index) {
-        reviews.splice(index, 1);
-        localStorage.setItem("reviews", JSON.stringify(reviews));
-        render();
+      // ------------------ DELETE (with security code) -----------------------
+      async function requestDeleteReview(id) {
+        const code = prompt("Enter delete security code:");
+        if (code !== "710287") {
+          alert("Wrong code! Delete not allowed.");
+          return;
+        }
+        if (!confirm("Are you sure you want to delete this review?")) return;
+
+        try {
+          await deleteDoc(doc(db, "reviews", id));
+        } catch (err) {
+          console.error("Delete error", err);
+          alert("Could not delete review.");
+        }
       }
 
-      render();
+      // expose some helpers for older inline handlers (not strictly necessary)
+      window.requestEditReview = requestEditReview;
+      window.requestDeleteReview = requestDeleteReview;
     </script>
   </body>
 </html>
