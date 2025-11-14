@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <!-- Review Grid -->
+      <!-- Review Grid (3 columns) -->
       <div class="row" id="reviewContainer"></div>
 
       <!-- Pagination -->
@@ -90,7 +90,7 @@
     <script>
       let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
       let currentPage = 1;
-      const perPage = 30; // Updated to show 5 reviews per page
+      const perPage = 3;
       let selectedRating = 0;
 
       // Handle star rating selection
@@ -136,46 +136,28 @@
         const pageReviews = reviews.slice(start, start + perPage);
 
         pageReviews.forEach((r, index) => {
-          let cardCol = document.createElement("div");
-          cardCol.className = "col-md-4 mb-4";
-
-          let card = document.createElement("div");
-          card.className = "review-card";
-
-          let starsDiv = document.createElement("div");
-          starsDiv.className = "stars";
-
+          let stars = "";
           for (let i = 1; i <= 5; i++) {
-            let star = document.createElement("i");
-            star.className = "bx bxs-star";
-            star.style.color = i <= r.rating ? "#f4b400" : "#ccc";
-            starsDiv.appendChild(star);
+            stars += `<i class='bx bxs-star' style='color:${
+              i <= r.rating ? "#f4b400" : "#ccc"
+            }'></i>`;
           }
 
-          let nameEl = document.createElement("h5");
-          nameEl.textContent = r.name;
-
-          let commentEl = document.createElement("p");
-          commentEl.textContent = r.comment;
-
-          let editBtn = document.createElement("button");
-          editBtn.className = "btn btn-sm btn-warning me-2";
-          editBtn.textContent = "Edit";
-          editBtn.onclick = () => requestEditReview(start + index);
-
-          let delBtn = document.createElement("button");
-          delBtn.className = "btn btn-sm btn-danger";
-          delBtn.textContent = "Delete";
-          delBtn.onclick = () => requestDeleteReview(start + index);
-
-          card.appendChild(starsDiv);
-          card.appendChild(nameEl);
-          card.appendChild(commentEl);
-          card.appendChild(editBtn);
-          card.appendChild(delBtn);
-
-          cardCol.appendChild(card);
-          container.appendChild(cardCol);
+          container.innerHTML += `
+            <div class="col-md-4 mb-4">
+                <div class="review-card">
+                    <div class="stars">${stars}</div>
+                    <h5>${r.name}</h5>
+                    <p>${r.comment}</p>
+                    <button class="btn btn-sm btn-warning me-2" onclick="editReview(${
+                      start + index
+                    })">Edit</button>
+                    <button class=\"btn btn-sm btn-danger\" onclick=\"requestDeleteReview(${
+                      start + index
+                    })">Delete</button>
+                </div>
+            </div>
+        `;
         });
 
         document.getElementById("count").textContent = reviews.length;
@@ -199,15 +181,6 @@
         if (currentPage > 1) {
           currentPage--;
           render();
-        }
-      }
-
-      function requestEditReview(index) {
-        const code = prompt("Enter edit security code:");
-        if (code === "710287") {
-          editReview(index);
-        } else {
-          alert("Wrong code! Edit not allowed.");
         }
       }
 

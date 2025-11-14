@@ -1115,12 +1115,12 @@ span {
   background: #323e4642;
 }
 #item-back {
-  background: #74777473 !important;
+  background: #7477748c !important;
   color: #080ce9fb;
   font-size: 1.8rem;
   font-weight: 400;
-  border-color: #12f7f9 !important;
-  margin-top: 5px;
+  border: 2px solid white;
+  /* margin-top: 5px; */
 }
 .accordion-body {
   background: var(--second-bg-color) !important;
