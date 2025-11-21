@@ -159,7 +159,7 @@ const circleObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.5 }
+  { threshold: 0.4 }
 );
 
 circles.forEach((circle) => circleObserver.observe(circle));
