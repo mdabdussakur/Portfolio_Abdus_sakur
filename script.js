@@ -54,37 +54,82 @@ const typed = new Typed(".text-rotation", {
   loop: true,
 });
 
-// Facts counter
+//-----About Section Counter-------------//
+
+// COUNTER UP ON SCROLL
 const counters = document.querySelectorAll('[data-bs-toggle="counter-up"]');
-const speed = 2000; // adjust for slower speed
+const speed = 20000; // lower number = faster count
 
-counters.forEach((counter) => {
+const startCounter = (counter) => {
+  const target = +counter.getAttribute("data-target");
+  const increment = target / speed;
+
   const updateCount = () => {
-    const target = +counter.getAttribute("data-target");
-    const count = +counter.innerText.replace("+", ""); // remove '+' if it exists
-    const increment = target / speed;
+    const current = +counter.innerText;
 
-    if (count < target) {
-      counter.innerText = Math.ceil(count + increment);
+    if (current < target) {
+      counter.innerText = Math.ceil(current + increment);
       requestAnimationFrame(updateCount);
     } else {
-      counter.innerText = `${target}+`; // 👈 Append + after animation
+      counter.innerText = target + "+";
     }
   };
 
   updateCount();
-});
+};
 
-//-------circle skill------------//
+// Intersection Observer to trigger when visible
+const observer = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        startCounter(entry.target);
+        observer.unobserve(entry.target); // run only once
+      }
+    });
+  },
+  { threshold: 0.5 } // 50% of element must be visible
+);
+
+// Attach observer to each counter
+counters.forEach((counter) => {
+  observer.observe(counter);
+});
+//----------------About Section done---------//
+
+//-------circle skill bar------------//
+
+const skillBars = document.querySelectorAll(".skill-bar .bar span");
+
+const animateSkillBar = (bar) => {
+  const width = window.getComputedStyle(bar).getPropertyValue("--w"); // custom width
+  bar.style.width = width; // animate to final width
+};
+
+const barObserver = new IntersectionObserver(
+  (entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateSkillBar(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+skillBars.forEach((bar) => barObserver.observe(bar));
+
+//  circle animation
 
 const circles = document.querySelectorAll(".circle");
 
-circles.forEach((elem) => {
-  var dots = elem.getAttribute("data-dots");
-  var marked = elem.getAttribute("data-percent");
-  var percent = Math.floor((dots * marked) / 100);
-  var points = "";
-  var rotate = 360 / dots;
+const animateCircles = (elem) => {
+  const dots = elem.getAttribute("data-dots");
+  const marked = elem.getAttribute("data-percent");
+  const percent = Math.floor((dots * marked) / 100);
+  let points = "";
+  const rotate = 360 / dots;
 
   for (let i = 0; i < dots; i++) {
     points += `<div class="points" style="--i:${i}; --rot:${rotate}deg"></div>`;
@@ -93,10 +138,31 @@ circles.forEach((elem) => {
   elem.innerHTML = points;
 
   const pointsMarked = elem.querySelectorAll(".points");
-  for (let i = 0; i < percent; i++) {
-    pointsMarked[i].classList.add("marked");
-  }
-});
+
+  let i = 0;
+  const markPoints = () => {
+    if (i < percent) {
+      pointsMarked[i].classList.add("marked");
+      i++;
+      requestAnimationFrame(markPoints);
+    }
+  };
+  markPoints();
+};
+
+const circleObserver = new IntersectionObserver(
+  (entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCircles(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+circles.forEach((circle) => circleObserver.observe(circle));
 
 //----------Portfolio isotope and filter--------------
 

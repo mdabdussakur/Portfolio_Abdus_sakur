@@ -539,15 +539,32 @@ span {
 }
 
 .skill-bar .bar span {
-  width: 50%;
+  width: 0%;
   height: 100%;
   position: absolute;
   left: 0;
   background: var(--main-color);
   border-radius: 25px;
   box-shadow: var(--neon-box-shadow);
+  transition: width 2s ease; /* Smooth animation */
 }
-.skill-bar .bar .g-ads {
+.g-ads {
+  --w: 85%;
+}
+.fb-ads {
+  --w: 80%;
+}
+.gtm {
+  --w: 75%;
+}
+.ga4 {
+  --w: 78%;
+}
+.cro {
+  --w: 70%;
+}
+
+/* .skill-bar .bar .g-ads {
   width: 85%;
   animation: g-ads 2s;
 }
@@ -566,7 +583,7 @@ span {
 .skill-bar .bar .cro {
   width: 70%;
   animation: cro 4.2s;
-}
+} */
 /* key frame */
 @keyframes g-ads {
   0% {
