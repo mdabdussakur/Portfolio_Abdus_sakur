@@ -32,7 +32,7 @@ body {
 
 section {
   min-height: 100vh;
-  padding: 10rem 9% 2rem;
+  padding: 5rem 9% 2rem;
 }
 .header {
   position: fixed;
@@ -81,6 +81,12 @@ section {
   display: none;
 }
 
+/* banar-------- */
+.home .carousel-control-prev,
+.home .carousel-control-next {
+  display: none !important;
+}
+
 /* home content css file */
 
 .home {
@@ -123,6 +129,11 @@ section {
   font-size: 3.2rem;
   font-weight: 700;
   color: #f18125;
+}
+.founder-con {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: whitesmoke;
 }
 .home-content p {
   font-size: 1.8rem;
@@ -1336,7 +1347,7 @@ span {
     padding: 2rem 3%;
   }
   section {
-    padding: 10rem 3% 2rem;
+    padding: 5rem 3% 2rem;
   }
 
   .services {
