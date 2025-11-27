@@ -86,8 +86,59 @@ section {
 .home .carousel-control-next {
   display: none !important;
 }
+/* ================== Default / Large Device ================== */
+.carousel-caption {
+  position: absolute;
+  bottom: 10%;
+  left: 6%;
+  text-align: left !important;
+}
 
-/* home content css file */
+.carousel-caption .btn {
+  background: #007bff;
+  padding: 12px 26px; /* big-screen size */
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+/* ================== Tablet ================== */
+@media (max-width: 992px) {
+  .carousel-caption {
+    bottom: 10%;
+    left: 6%;
+  }
+  .carousel-caption .btn {
+    font-size: 15px;
+    padding: 10px 22px;
+  }
+}
+
+/* ================== Small Phones ================== */
+@media (max-width: 576px) {
+  .carousel-caption {
+    bottom: 3% !important;
+    left: 5% !important;
+    width: auto;
+  }
+  .carousel-caption .btn {
+    font-size: 8px !important; /* now smaller */
+    padding: 5px 8px !important; /* reduced size */
+    font-weight: 500; /* more balanced look */
+  }
+}
+
+/* ================== Ultra Small Screens ================== */
+@media (max-width: 430px) {
+  .carousel-caption {
+    bottom: 3% !important;
+    left: 5%;
+  }
+  .carousel-caption .btn {
+    font-size: 8px !important; /* more compact */
+    padding: 5px 8px !important;
+  }
+}
 
 .home {
   display: flex;
